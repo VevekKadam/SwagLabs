@@ -1,0 +1,108 @@
+
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import java.io.File;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;  
+
+
+public class SeleniumTest {
+
+public static void main(String[] args) {
+
+//setting the driver executable
+System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
+
+//Initiating your chromedriver
+WebDriver driver=new ChromeDriver();
+String path = ".\\Screenshots";
+
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+driver.manage().window().maximize();
+
+//Starting Tests to Automate
+driver.get("https://www.saucedemo.com/");
+Assert.assertEquals(driver.getTitle(),"Swag Labs");
+
+
+//Reading user input for login
+Scanner sc = new Scanner(System.in);
+System.out.println("Enter username & password : ");
+String userName = sc.nextLine();
+String passWord = sc.nextLine();
+
+//Login Page
+driver.findElement(By.id("user-name")).sendKeys(userName);
+driver.findElement(By.id("password")).sendKeys(passWord);
+driver.findElement(By.cssSelectors("input[type='submit']").click();
+
+WebElement pageTitle = driver.findElement(By.className("title"));
+Assert.assertEquals(pageTitle.getText(),"Products");
+
+//Product Page
+WebElement cartButton = driver.findElement(By.xpath("//a[@class='shopping_cart_link']"));
+Assert.assertTrue(cartButton.isEnabled())
+cartButton.click();
+Assert.assertEquals(pageTitle.getText(),"Your Cart");
+
+//Cart Page
+WebElement ctnShopping = driver.findElement(By.id("continue-shopping"));
+Assert.assertTrue(ctnShopping.isEnabled())
+ctnShopping.click();
+Assert.assertEquals(pageTitle.getText(),"Products");
+
+//Returning again to cart page
+cartButton.click();
+
+//Cart Page
+WebElement checkOut = driver.findElement(By.xpath("//button[@id='checkout']"));
+Assert.assertTrue(checkOut.isEnabled())
+checkOut.click();
+Assert.assertEquals(pageTitle.getText(),"Checkout: Your Information");
+
+//Checkout Page
+WebElement cnclBtn = driver.findElement(By.id("cancel"));
+Assert.assertTrue(cnclBtn.isEnabled())
+cnclBtn.click();
+Assert.assertEquals(pageTitle.getText(),"Your Cart");
+
+//Returning again to checkout page
+checkOut.click();
+
+WebElement fName = driver.findElement(By.name("firstName"));
+WebElement lName = driver.findElement(By.name("lastName"));
+WebElement zipCode = driver.findElement(By.name("postalCode"));
+
+Assert.assertTrue(fName.isEnabled());
+fName.sendKeys("Vivek");
+Assert.assertTrue(lName.isEnabled());
+fName.sendKeys("Kadam");
+Assert.assertTrue(zipCode.isEnabled());
+fName.sendKeys("11111");
+
+WebElement continueBtn = driver.findElement(By.xpath("//button[@id='continue']"));
+Assert.assertTrue(continueBtn.isEnabled())
+continueBtn.click();
+Assert.assertEquals(pageTitle.getText(),"Checkout: Overview");
+
+//take screenshots of success page
+takeScreenshot(driver,path);
+
+//closing the browser
+driver.close();
+
+}
+
+public static void takeScreenshot(WebDriver driver,String filePath) {
+
+        TakesScreenshot tss = ((TakesScreenshot)webdriver);       
+        File SrcFile= tss.getScreenshotAs(OutputType.FILE);	 	//call getScreenshotAs method
+        File DestFile=new File(fileWithPath);				//destination path
+	  FileUtils.copyFile(SrcFile, DestFile);
+    }
+
+}
